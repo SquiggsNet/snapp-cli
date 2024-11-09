@@ -1,0 +1,17 @@
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+
+export default class <%= name %>Model extends Model {
+<% fields.forEach(field => { %>
+  @attr('<%= field.type.toLowerCase() %>') <%= field.name %>!: <%= field.type %>;
+<% }); %>
+
+<% relationships.forEach(rel => { %>
+  @<%= rel.kind %>('<%= rel.type.toLowerCase() %>') <%= rel.name %>!: <%= rel.kind === 'hasMany' ? `${rel.type}Model[]` : `${rel.type}Model` %>;
+<% }); %>
+}
+
+// DO NOT DELETE: this is how TypeScript knows how to look up your models.
+declare module 'ember-data/types/registries/model' {
+  export default interface ModelRegistry {
+    '<%= name.toLowerCase() %>': <%= name %>Model;
+  }

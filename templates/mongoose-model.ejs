@@ -1,0 +1,15 @@
+import { Schema, model } from 'mongoose';
+
+const <%= name %>Schema = new Schema({
+<% fields.forEach(field => { %>
+  <%= field.name %>: { type: <%= field.type %> },
+<% }); %>
+<% relationships.forEach(rel => { %>
+  <%= rel.name %>: { 
+    type: <%= rel.kind === 'hasMany' ? '[Schema.Types.ObjectId]' : 'Schema.Types.ObjectId' %>,
+    ref: '<%= rel.type %>'
+  },
+<% }); %>
+});
+
+export default model('<%= name %>', <%= name %>Schema);
